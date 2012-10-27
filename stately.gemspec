@@ -8,10 +8,10 @@ Gem::Specification.new do |s|
   s.email       = ['rtwomey@gmail.com']
   s.homepage    = 'http://github.com/rtwomey/stately'
   s.summary     = 'A simple, elegant state machine for Ruby'
-  s.description = 'TODO: Description of Stately.'
+  s.description = 'Add an elegant state machine to your ruby objects with a simple DSL'
 
-  s.files         = `git ls-files`.split('\n')
-  s.test_files    = `git ls-files -- {spec}/*`.split('\n')
+  s.files         = `git ls-files`.split("\n")
+  s.test_files    = `git ls-files -- {spec}/*`.split("\n")
 
   s.add_development_dependency 'rspec', '~> 2.0'
 
