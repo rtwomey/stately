@@ -1,9 +1,21 @@
 module Stately
+  # A Stately::State object contains the configuration and other information about a defined
+  # state.
+  #
+  # It's made up of a name (which is saved to the parent instance's state attribute), the
+  # name of an action (which is a method called to transition into this state), and a DSL to
+  # define allowed transitions, callbacks, and validations.
+
   class State
     attr_reader :action, :name
     attr_reader :allow_from_states, :prevent_from_states
     attr_reader :after_transitions, :before_transitions, :validations
 
+    # Sets up and returns a new Stately::State object.
+    #
+    # @param [String] name The name of the state
+    # @param [String] action The method name that's called to transition to this state. Some method
+    #   names can be inferred based on the state's name.
     def initialize(name, action=nil, &block)
       @action = (action || guess_action_for(name)).to_s
       @name = name
@@ -27,10 +39,12 @@ module Stately
       end
     end
 
+    # @return [String] The state name as a string
     def to_s
       @name.to_s
     end
 
+    # @return [Symbol] The state name as a string
     def to_sym
       @name.to_sym
     end

@@ -2,6 +2,9 @@
 log/*.log
 pkg/
 rdoc/
+.DS_Store
+.yardoc/
+doc/
 test/dummy/db/*.sqlite3
 test/dummy/log/*.log
 test/dummy/tmp/
