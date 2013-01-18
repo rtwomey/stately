@@ -1,6 +1,6 @@
 # Stately
 
-An elegant state machine for your ruby objects.
+A minimal, elegant state machine for your ruby objects.
 
 ![A stately fellow.](https://dl.dropbox.com/u/2754528/exquisite_cat.jpg "A stately fellow.")
 
@@ -34,6 +34,23 @@ end
 ```
 
 Stately tries hard not to surprise you. When you transition to a new state, you're responsible for taking whatever actions that means using `before_transition` and `after_transition`. Stately also has no dependencies on things like DataMapper or ActiveModel, so it will never surprise you with an implicit `save` after transitioning states.
+
+## When to use stately
+
+Often, you'll find yourself writing an object that can have multiple states. Tracking these states can usually be done either:
+
+* By hand (i.e. adding a string column in the db and storing the current state there).
+* Via a state machine of some kind. [state_machine](https://github.com/pluginaweek/state_machine) is a popular one that I've used quite a bit, which has a lot of advanced features (most of which I've never used).
+
+Stately exists in a middle space between the two options. The goal of stately is to make the most common case, where you just need to track state and react appropriately when switching those states, easy.
+
+## Design goals
+
+* Minimalist. Stately tries to solve the most common use case: tracking the current state and handling transitions between states.
+
+* No magic. In other words, if you're using, say, ActiveRecord, stately won't hook in to activerecord callbacks. This requires you to be more explicit and perhaps more verbose, but I think it helps with readability and reduces surprises. See the Examples section below for what this looks like when in an ActiveRecord environment.
+
+* Syntax that is as self-documenting as possible. Someone not familiar with Stately should be able to understand what happens when an object's state is changed just by reading the DSL.
 
 ## Getting started
 
@@ -131,6 +148,24 @@ end
 A callback can include an optional `from` state name, which is only called when transitioning from the named state. Omitting it means the callback is always called.
 
 Additionally, each callback is executed in the order in which it's defined.
+
+## Example: using Stately with ActiveRecord
+
+Let's say you are modeling a Bicycle object for your rental shop and you're using ActiveRecord. A Bicycle has two states: `available` and `rented`. Using stately, you could define this as the following:
+
+```ruby
+class Bicycle < ActiveRecord::Base
+  stately start: :available do
+    state :rented, action: :rent do
+      after_transition do: :save
+    end
+  end
+end
+```
+
+When Bicycle is first instantiated, its `state` column is set to the string `available`. If you want to rent the Bicycle, you'd call `bicycle.rent`, which would update the `state` column to be the string `rented` and then call the ActiveRecord method `save`.
+
+As you can see, Stately is slightly more verbose than other state machine gems, but with the upside of being more self-documenting. Additionally, it doesn't hook into ActiveRecord's callback chains, and instead requires you to explicitely call `save`.
 
 ## Requirements
 
