@@ -9,7 +9,7 @@ An elegant state machine for your ruby objects.
 Stately is a state machine for ruby objects, with an elegant, easy-to-read DSL. Here's an example showing off what Stately can do:
 
 ```ruby
-Class Order do
+class Order
   stately start: :processing do
     state :completed do
       prevent_from :refunded
@@ -66,7 +66,7 @@ This sets up Stately to look for an attribute named `my_state_attr`, and initial
 States make up the core of Stately and define two things: the name of the state (i.e. "completed"), and a verb as the name of the method to call to begin a transition into that state (i.e. "complete"). Stately has support for some common state/verb combinations, but you can always use your own:
 
 ```ruby
-Class Order
+class Order
   stately start: :processing do
     state :my_state, action: transition_to_my_state
   end
@@ -109,7 +109,7 @@ Callbacks can be defined to run either before or after a transition occurs. A `b
 If you're using Stately with some kind of persistence layer, sych as activerecord, you'll probably want an `after_transition` that calls `save` or the equivalent.
 
 ```ruby
-Class Order do
+class Order
   stately start: :processing do
     # ...
 
