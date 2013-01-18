@@ -106,13 +106,25 @@ Each validation is also called in order, so first `validates_amount` will be cal
 
 Callbacks can be defined to run either before or after a transition occurs. A `before_transition` is run after validations are checked, but before the `state_attr` has been written to with the new state. An `after_transition` is called after the `state_attr` has been written to.
 
-If you're using Stately with a database, you'll almost always want an `after_transition` that calls `save` or the equivalent.
+If you're using Stately with some kind of persistence layer, sych as activerecord, you'll probably want an `after_transition` that calls `save` or the equivalent.
 
 ```ruby
-state :completed do
-  before_transition from: :processing, do: :before_completed
-  before_transition from: :invalid, do: :cleanup_invalid
-  after_transition do: :after_completed
+Class Order do
+  stately start: :processing do
+    # ...
+
+    state :completed do
+      before_transition from: :processing, do: :before_completed
+      before_transition from: :invalid, do: :cleanup_invalid
+      after_transition do: :after_completed
+    end
+  end
+
+  private
+
+  def after_completed
+    save
+  end
 end
 ```
 
@@ -122,7 +134,7 @@ Additionally, each callback is executed in the order in which it's defined.
 
 ## Requirements
 
-Stately requires Ruby 1.9+. If you'd like to contribute to Stately, you'll need Rspec 2.0+.
+Stately requires Ruby 1.9. If you'd like to contribute to Stately, you'll need Rspec 2.0+.
 
 ## License
 
