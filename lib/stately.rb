@@ -7,75 +7,67 @@ module Stately
   class InvalidTransition < StandardError
   end
 
-  # Define a new Stately state machine.
-  #
-  # As an example, let's say you have an Order object and you'd like an elegant state machine for
-  # it. Here's one way you might set it up:
-  #
-  #     Class Order do
-  #       stately start: :processing do
-  #         state :completed do
-  #           prevent_from :refunded
-  #
-  #           before_transition from: :processing, do: :calculate_total
-  #           after_transition do: :email_receipt
-  #
-  #           validate :validates_credit_card
-  #         end
-  #
-  #         state :invalid do
-  #           prevent_from :completed, :refunded
-  #         end
-  #
-  #         state :refunded do
-  #           allow_from :completed
-  #
-  #           after_transition do: :email_receipt
-  #         end
-  #       end
-  #     end
-  #
-  # This example is doing quite a few things, paraphrased as:
-  #
-  #   * It sets up a new state machine using the default state attribute on Order to store the
-  #     current state. It also indicates the initial state should be :processing.
-  #   * It defines three states: :completed, :refunded, and :invalid
-  #   * Order can transition to the completed state from all but the refunded state. Similar
-  #     definitions are setup for the other two states.
-  #   * Callbacks are setup using before_transition and after_transition
-  #   * Validations are added. If a validation fails, it prevents the transition.
-  #
-  # Stately tries hard not to surprise you. In a typical Stately implementation, you'll always have
-  # an after_transition, primarily to call save (or whatever the equivalent is to store the
-  # instance's current state).
-  def stately(*opts, &block)
-    options = opts.last.is_a?(Hash) ? opts.last : {}
-    options[:attr] ||= :state
+  module Core
+    # Define a new Stately state machine.
+    #
+    # As an example, let's say you have an Order object and you'd like an elegant state machine for
+    # it. Here's one way you might set it up:
+    #
+    #     Class Order do
+    #       stately start: :processing do
+    #         state :completed do
+    #           prevent_from :refunded
+    #
+    #           before_transition from: :processing, do: :calculate_total
+    #           after_transition do: :email_receipt
+    #
+    #           validate :validates_credit_card
+    #         end
+    #
+    #         state :invalid do
+    #           prevent_from :completed, :refunded
+    #         end
+    #
+    #         state :refunded do
+    #           allow_from :completed
+    #
+    #           after_transition do: :email_receipt
+    #         end
+    #       end
+    #     end
+    #
+    # This example is doing quite a few things, paraphrased as:
+    #
+    #   * It sets up a new state machine using the default state attribute on Order to store the
+    #     current state. It also indicates the initial state should be :processing.
+    #   * It defines three states: :completed, :refunded, and :invalid
+    #   * Order can transition to the completed state from all but the refunded state. Similar
+    #     definitions are setup for the other two states.
+    #   * Callbacks are setup using before_transition and after_transition
+    #   * Validations are added. If a validation fails, it prevents the transition.
+    #
+    # Stately tries hard not to surprise you. In a typical Stately implementation, you'll always have
+    # an after_transition, primarily to call save (or whatever the equivalent is to store the
+    # instance's current state).
+    def stately(*opts, &block)
+      options = opts.last.is_a?(Hash) ? opts.last : {}
+      options[:attr] ||= :state
 
-    self.stately_machine = Stately::Machine.new(options[:attr], options[:start])
-    self.stately_machine.instance_eval(&block) if block_given?
+      self.stately_machine = Stately::Machine.new(options[:attr], options[:start])
+      self.stately_machine.instance_eval(&block) if block_given?
 
-    include Stately::InstanceMethods
-  end
+      include Stately::InstanceMethods
+    end
 
-  # Get the current Stately::Machine object
-  def self.stately_machine
-    @@stately_machine
-  end
+    # Get the current Stately::Machine object
+    def stately_machine
+      @@stately_machine
+    end
 
-  # Get the current Stately::Machine object
-  def stately_machine
-    @@stately_machine
-  end
-
-  # Set the current Stately::Machine object
-  def self.stately_machine=(obj)
-    @@stately_machine = obj
-  end
-
-  # Set the current Stately::Machine object
-  def stately_machine=(obj)
-    @@stately_machine = obj
+    # Set the current Stately::Machine object
+    def stately_machine=(obj)
+      @@stately_machine = obj
+    end
   end
 
   module InstanceMethods
