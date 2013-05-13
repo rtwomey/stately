@@ -1,5 +1,7 @@
 # Stately
 
+[![Build Status](https://api.travis-ci.org/rtwomey/stately.png)](https://travis-ci.org/rtwomey/stately)
+
 A minimal, elegant state machine for your ruby objects.
 
 ![A stately fellow.](https://dl.dropbox.com/u/2754528/exquisite_cat.jpg "A stately fellow.")
@@ -169,8 +171,8 @@ As you can see, Stately is slightly more verbose than other state machine gems, 
 
 ## Requirements
 
-Stately requires Ruby 1.9. If you'd like to contribute to Stately, you'll need Rspec 2.0+.
+Stately requires Ruby 1.9 or newer. If you'd like to contribute to Stately, you'll need Rspec 2.0+.
 
 ## License
 
-Stately is Copyright © 2012 Ryan Twomey. It is free software, and may be redistributed under the terms specified in the MIT-LICENSE file.
+Stately is Copyright © 2013 Ryan Twomey. It is free software, and may be redistributed under the terms specified in the MIT-LICENSE file.
