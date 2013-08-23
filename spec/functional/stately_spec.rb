@@ -4,13 +4,13 @@ require 'spec_helper'
 describe Stately do
   before do
     @order_class = Class.new(OpenStruct) do
-      stately start: :processing do
+      stately :start => :processing do
         state :completed do
           prevent_from :refunded
 
-          before_transition from: :processing, do: :before_completed
-          before_transition from: :invalid, do: :cleanup_invalid
-          after_transition do: :after_completed
+          before_transition :from => :processing, :do => :before_completed
+          before_transition :from => :invalid, :do => :cleanup_invalid
+          after_transition :do => :after_completed
 
           validate :validates_amount
           validate :validates_credit_card
@@ -27,8 +27,8 @@ describe Stately do
         state :refunded do
           allow_from :completed
 
-          before_transition from: :completed, do: :before_refunded
-          after_transition from: :completed, do: :after_refunded
+          before_transition :from => :completed, :do => :before_refunded
+          after_transition :from => :completed, :do => :after_refunded
         end
       end
 
@@ -115,7 +115,7 @@ describe Stately do
 
   def self.should_prevent_transition(from, to, action)
     before do
-      @order = @order_class.new(amount: 99, cc_number: 123)
+      @order = @order_class.new(:amount => 99, :cc_number => 123)
       @order.state = from
     end
 
@@ -141,7 +141,7 @@ describe Stately do
 
   describe 'initial state' do
     before do
-      @order = @order_class.new(amount: 99, cc_number: 123)
+      @order = @order_class.new(:amount => 99, :cc_number => 123)
     end
 
     it 'creates actions for each state' do
@@ -179,7 +179,7 @@ describe Stately do
 
   describe '#complete' do
     before do
-      @order = @order_class.new(amount: 99, cc_number: 123)
+      @order = @order_class.new(:amount => 99, :cc_number => 123)
     end
 
     describe 'from processing' do
@@ -243,7 +243,7 @@ describe Stately do
   describe '#invalidate' do
     describe 'from processing' do
       before do
-        @order = @order_class.new(amount: 99, cc_number: 123)
+        @order = @order_class.new(:amount => 99, :cc_number => 123)
         @order.invalidate
       end
 
@@ -272,7 +272,7 @@ describe Stately do
 
     describe 'from completed' do
       before do
-        @order = @order_class.new(amount: 99, cc_number: 123)
+        @order = @order_class.new(:amount => 99, :cc_number => 123)
         @order.state = 'completed'
       end
 

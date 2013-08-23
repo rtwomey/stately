@@ -43,7 +43,7 @@ describe Stately::Machine do
     describe 'with name and action' do
       describe 'of a new state' do
         before do
-          @machine.state(:new_state, action: :transition_to_new_state)
+          @machine.state(:new_state, :action =>  :transition_to_new_state)
         end
 
         it 'adds a new state' do
@@ -57,7 +57,7 @@ describe Stately::Machine do
 
       describe 'of a previously defined state' do
         before do
-          @machine.state(:processing, action: :transition_to_processing)
+          @machine.state(:processing, :action =>  :transition_to_processing)
         end
 
         it "doesn't add a new state" do
@@ -73,7 +73,7 @@ describe Stately::Machine do
     describe 'with name, action, and block' do
       describe 'of a new state' do
         before do
-          @machine.state(:new_state, action: :transition_to_new_state) do
+          @machine.state(:new_state, :action =>  :transition_to_new_state) do
             allow_from :completed
           end
 
@@ -95,7 +95,7 @@ describe Stately::Machine do
 
       describe 'of a previously defined state' do
         before do
-          @machine.state(:processing, action: :transition_to_processing) do
+          @machine.state(:processing, :action =>  :transition_to_processing) do
             allow_from :completed
           end
 

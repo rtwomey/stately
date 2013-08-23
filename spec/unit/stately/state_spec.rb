@@ -9,10 +9,10 @@ describe Stately::State do
             allow_from :completed
             prevent_from :completed, :refunded
 
-            before_transition do: :prepare
-            before_transition from: :processing, do: :before_completed
-            after_transition do: :cleanup
-            after_transition from: :processing, do: :after_processing
+            before_transition :do => :prepare
+            before_transition :from => :processing, :do => :before_completed
+            after_transition :do => :cleanup
+            after_transition :from => :processing, :do => :after_processing
 
             validate :validates_amount
             validate :validates_credit_card
@@ -25,10 +25,10 @@ describe Stately::State do
           @state.allow_from_states.should == [:completed]
           @state.prevent_from_states.should == [:completed, :refunded]
 
-          @state.before_transitions.should == [{do: :prepare}, {from: :processing,
-            do: :before_completed}]
-          @state.after_transitions.should == [{do: :cleanup}, {from: :processing,
-            do: :after_processing}]
+          @state.before_transitions.should == [{:do => :prepare}, {:from => :processing,
+            :do => :before_completed}]
+          @state.after_transitions.should == [{:do => :cleanup}, {:from => :processing,
+            :do => :after_processing}]
           @state.validations.should == [:validates_amount, :validates_credit_card]
         end
       end
@@ -64,9 +64,9 @@ describe Stately::State do
 
       describe 'without a given action' do
         before do
-          @actions = { completed: :complete, converting: :convert, invalid: :invalidate,
-            preparing: :prepare, processing: :process, refunded: :refund, reticulating: :reticulate,
-            saving: :save, searching: :search, started: :start, stopped: :stop }
+          @actions = { :completed => :complete, :converting => :convert, :invalid => :invalidate,
+            :preparing => :prepare, :processing => :process, :refunded => :refund, :reticulating => :reticulate,
+            :saving => :save, :searching => :search, :started => :start, :stopped => :stop }
         end
 
         it 'should set the correct action verb' do

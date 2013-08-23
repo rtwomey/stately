@@ -17,6 +17,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rspec', '~> 2.0'
   s.add_development_dependency 'yard', '~> 0.8.3'
 
-  s.required_ruby_version = Gem::Requirement.new('>= 1.9.2')
+  s.required_ruby_version = Gem::Requirement.new('>= 1.8.7')
   s.require_paths = ['lib']
 end

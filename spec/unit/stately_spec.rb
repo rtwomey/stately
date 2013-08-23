@@ -6,7 +6,7 @@ describe Stately::InstanceMethods do
     @test_class = Class.new(Object) do
       attr_accessor :state
 
-      stately start: :processing do
+      stately :start => :processing do
         state :completed
       end
     end

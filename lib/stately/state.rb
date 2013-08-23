@@ -51,9 +51,9 @@ module Stately
 
     private
 
-    ACTIONS = { completed: :complete, converting: :convert, invalid: :invalidate,
-      preparing: :prepare, processing: :process, refunded: :refund, reticulating: :reticulate,
-      saving: :save, searching: :search, started: :start, stopped: :stop }
+    ACTIONS = { :completed => :complete, :converting => :convert, :invalid => :invalidate,
+      :preparing => :prepare, :processing => :process, :refunded => :refund, :reticulating => :reticulate,
+      :saving => :save, :searching => :search, :started => :start, :stopped => :stop }
 
     def guess_action_for(name)
       ACTIONS[name.to_sym]
