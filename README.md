@@ -12,12 +12,12 @@ Stately is a state machine for ruby objects, with an elegant, easy-to-read DSL. 
 
 ```ruby
 class Order
-  stately start: :processing do
+  stately :start => :processing do
     state :completed do
       prevent_from :refunded
 
-      before_transition from: :processing, do: :calculate_total
-      after_transition do: :email_receipt
+      before_transition :from => :processing, :do => :calculate_total
+      after_transition :do => :email_receipt
 
       validate :validates_credit_card
     end
@@ -29,7 +29,7 @@ class Order
     state :refunded do
       allow_from :completed
 
-      after_transition do: :email_receipt
+      after_transition :do => :email_receipt
     end
   end
 end
@@ -73,12 +73,12 @@ Be sure to run `bundle install` afterwards.
 The first step is to add the following to your object:
 
 ```ruby
-stately start: :initial_state, attr: :my_state_attr do
+stately :start => :initial_state, :attr => :my_state_attr do
   # ...
 end
 ```
 
-This sets up Stately to look for an attribute named `my_state_attr`, and initially set it to `initial_state`. If you omit `attr: :my_state_attr`, Stately will automatically look for an attribute named `state`.
+This sets up Stately to look for an attribute named `my_state_attr`, and initially set it to `initial_state`. If you omit `:attr => :my_state_attr`, Stately will automatically look for an attribute named `state`.
 
 ## Defining a state
 
@@ -86,8 +86,8 @@ States make up the core of Stately and define two things: the name of the state 
 
 ```ruby
 class Order
-  stately start: :processing do
-    state :my_state, action: transition_to_my_state
+  stately :start => :processing do
+    state :my_state, :action => transition_to_my_state
   end
 end
 
@@ -129,13 +129,13 @@ If you're using Stately with some kind of persistence layer, sych as activerecor
 
 ```ruby
 class Order
-  stately start: :processing do
+  stately :start => :processing do
     # ...
 
     state :completed do
-      before_transition from: :processing, do: :before_completed
-      before_transition from: :invalid, do: :cleanup_invalid
-      after_transition do: :after_completed
+      before_transition :from => :processing, :do => :before_completed
+      before_transition :from => :invalid, :do => :cleanup_invalid
+      after_transition :do => :after_completed
     end
   end
 
@@ -157,9 +157,9 @@ Let's say you are modeling a Bicycle object for your rental shop and you're usin
 
 ```ruby
 class Bicycle < ActiveRecord::Base
-  stately start: :available do
-    state :rented, action: :rent do
-      after_transition do: :save
+  stately :start => :available do
+    state :rented, :action => :rent do
+      after_transition :do => :save
     end
   end
 end
@@ -171,7 +171,7 @@ As you can see, Stately is slightly more verbose than other state machine gems, 
 
 ## Requirements
 
-Stately requires Ruby 1.9 or newer. If you'd like to contribute to Stately, you'll need Rspec 2.0+.
+Stately requires Ruby 1.8.7 or newer. If you'd like to contribute to Stately, you'll need Rspec 2.0+.
 
 ## License
 
