@@ -5,7 +5,7 @@ describe Stately::State do
     describe 'with an unrecognized action' do
       it 'should not have an empty string for an action' do
         state = Stately::State.new :pending
-        state.action.should_not == ""
+        state.action.should == "pending"
       end
     end
 
