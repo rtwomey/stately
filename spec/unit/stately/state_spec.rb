@@ -2,6 +2,13 @@ require 'spec_helper'
 
 describe Stately::State do
   describe 'initialize' do
+    describe 'with an unrecognized action' do
+      it 'should not have an empty string for an action' do
+        state = Stately::State.new :pending
+        state.action.should_not == ""
+      end
+    end
+
     describe 'with a block given' do
       describe 'new' do
         before do

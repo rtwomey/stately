@@ -56,7 +56,7 @@ module Stately
       :saving => :save, :searching => :search, :started => :start, :stopped => :stop }
 
     def guess_action_for(name)
-      ACTIONS[name.to_sym]
+      ACTIONS.fetch(name.to_sym, name)
     end
 
     class StateConfigurator
