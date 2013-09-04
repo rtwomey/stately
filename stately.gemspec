@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'redcarpet', '~> 2.2.2'
   s.add_development_dependency 'rspec', '~> 2.0'
   s.add_development_dependency 'yard', '~> 0.8.3'
-  s.add_development_dependency 'rdoc'
+  s.add_development_dependency 'rdoc', '4.0.1'
 
   s.required_ruby_version = Gem::Requirement.new('>= 1.8.7')
   s.require_paths = ['lib']

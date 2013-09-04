@@ -27,7 +27,7 @@ PLATFORMS
 
 DEPENDENCIES
   rake
-  rdoc
+  rdoc (= 4.0.1)
   redcarpet (~> 2.2.2)
   rspec (~> 2.0)
   stately!
