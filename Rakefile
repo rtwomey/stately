@@ -32,6 +32,13 @@ namespace :spec do
   end
 end
 
+task :console do
+  require 'pry'
+  require 'stately'
+  ARGV.clear
+  Pry.start
+end
+
 desc 'Run unit and functional specs'
 task :spec => ['spec:unit', 'spec:functional']
 
