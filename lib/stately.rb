@@ -161,16 +161,16 @@ module Stately
 
       if valid_transition_to?(state)
         run_before_transition_callbacks(state)
-        write_attribute(stately_machine.state_attr, state.to_s)
+        write_model_attribute(stately_machine.state_attr, state.to_s)
         run_after_transition_callbacks(state)
       end
     end
 
     def set_initial_state
-      write_attribute(stately_machine.state_attr, stately_machine.start.to_s)
+      write_model_attribute(stately_machine.state_attr, stately_machine.start.to_s)
     end
 
-    def write_attribute(attr, val)
+    def write_model_attribute(attr, val)
       send("#{attr}=", val)
     end
 
