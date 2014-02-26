@@ -93,6 +93,10 @@ module Stately
           define_method(state.action) do
             transition_to(state)
           end
+
+          define_method(:"#{state.name}?") do
+            send(stately_machine.state_attr) == state.name.to_s
+          end
         end
       end
     end

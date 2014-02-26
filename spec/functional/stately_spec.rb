@@ -136,6 +136,10 @@ describe Stately do
       it 'sets state' do
         @order.state.should == new_state
       end
+
+      it 'responds to test method' do
+        @order.send("#{new_state}?").should be_true
+      end
     end
   end
 
@@ -148,6 +152,13 @@ describe Stately do
       @order_class.method_defined?(:complete).should be_true
       @order_class.method_defined?(:process).should be_true
       @order_class.method_defined?(:refund).should be_true
+    end
+
+    it 'creates tests for each state' do
+      @order_class.method_defined?(:processing?).should be_true
+      @order_class.method_defined?(:completed?).should be_true
+      @order_class.method_defined?(:invalid?).should be_true
+      @order_class.method_defined?(:refunded?).should be_true
     end
 
     it 'finds all states' do

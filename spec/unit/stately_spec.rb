@@ -36,6 +36,11 @@ describe Stately::InstanceMethods do
       @test_class.method_defined?(:complete).should be_true
       @test_class.method_defined?(:process).should be_true
     end
+
+    it 'defines test methods' do
+      @test_class.method_defined?(:processing?).should be_true
+      @test_class.method_defined?(:completed?).should be_true
+    end
   end
 
   describe 'stately_machine' do
