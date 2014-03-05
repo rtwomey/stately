@@ -16,8 +16,8 @@ describe Stately::InstanceMethods do
 
   describe 'initialize' do
     it 'creates a new Stately::Machine' do
-      @object.stately_machine.class.should == Stately::Machine
-      @object.stately_machine.should == @test_class.stately_machine
+      @object.class.stately_machine.class.should == Stately::Machine
+      @object.class.stately_machine.should == @test_class.stately_machine
     end
 
     it 'sets initial state' do
@@ -49,11 +49,11 @@ describe Stately::InstanceMethods do
     end
 
     it 'defines an instance-level accessor called stately_machine' do
-      @test_class.method_defined?(:stately_machine).should be_true
+      @test_class.class.method_defined?(:stately_machine).should be_true
     end
 
     it 'defines a class-level setter called stately_machine=' do
-      @test_class.respond_to?(:stately_machine=).should be_true
+      @test_class.class.respond_to?(:stately_machine=).should be_true
     end
 
     it 'defines an instance-level setter called stately_machine=' do

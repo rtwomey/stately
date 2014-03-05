@@ -53,20 +53,20 @@ module Stately
       options = opts.last.is_a?(Hash) ? opts.last : {}
       options[:attr] ||= :state
 
-      self.stately_machine = Stately::Machine.new(options[:attr], options[:start])
-      self.stately_machine.instance_eval(&block) if block_given?
+      @stately_machine = Stately::Machine.new(options[:attr], options[:start])
+      @stately_machine.instance_eval(&block) if block_given?
 
       include Stately::InstanceMethods
     end
 
     # Get the current Stately::Machine object
     def stately_machine
-      @@stately_machine
+      self.instance_variable_get(:@stately_machine)
     end
 
     # Set the current Stately::Machine object
     def stately_machine=(obj)
-      @@stately_machine = obj
+      @stately_machine = obj
     end
   end
 
@@ -107,6 +107,10 @@ module Stately
     end
 
     private
+
+    def stately_machine
+      self.class.stately_machine
+    end
 
     def allowed_state_transition?(to_state)
       if current_state == to_state.to_s
