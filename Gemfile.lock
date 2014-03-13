@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    stately (0.3.2)
+    stately (0.3.3)
 
 GEM
   remote: http://rubygems.org/
